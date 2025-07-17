@@ -6,7 +6,14 @@ const connectDB = require('./config/db');
 
 app.use(express.json());
 
-connectDB();
+
+async function startServer() {
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`MCP Server listening on port ${PORT}`);
+  });
+}
 
 app.get('/health', (req, res) => {
   res.json({ status: 'MCP Server is running!' });
@@ -35,6 +42,7 @@ toolRegistry.register(gdriveAdapter.id, gdriveAdapter);
 toolRegistry.register(dropboxAdapter.id, dropboxAdapter);
 toolRegistry.register(gcalAdapter.id, gcalAdapter);
 
-app.listen(PORT, () => {
-  console.log(`MCP Server listening on port ${PORT}`);
-}); 
+startServer().catch((err) => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
+});
