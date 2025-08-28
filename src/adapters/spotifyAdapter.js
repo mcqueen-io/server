@@ -5,9 +5,13 @@ module.exports = {
   category: 'entertainment',
   actions: {
     playTrack: async ({ trackId }) => {
-      await new Promise((res) => setTimeout(res, 200));
+      const { sleep } = require('../utils/sleep');
+      await sleep(200);
       console.log(`[SpotifyAdapter] Playing track ${trackId}`);
       return { success: true };
     },
+  },
+  async getHealth() {
+    return { status: 'healthy' };
   },
 }; 

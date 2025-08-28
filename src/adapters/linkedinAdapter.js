@@ -5,9 +5,13 @@ module.exports = {
   category: 'social',
   actions: {
     postUpdate: async ({ text }) => {
-      await new Promise((res) => setTimeout(res, 200));
+      const { sleep } = require('../utils/sleep');
+      await sleep(200);
       console.log(`[LinkedInAdapter] Posted update: ${text}`);
       return { success: true };
     },
+  },
+  async getHealth() {
+    return { status: 'healthy' };
   },
 }; 
